@@ -1,0 +1,19 @@
+import "base.proto";           // описание protobuf-типов
+import "facttypes_base.proto"; // описание protobuf-типа NFactType.TFact
+message WPNum: NFactType.TFact 
+{
+    required string WPid = 1;
+}
+
+message Metric: NFactType.TFact
+{
+    required string Type = 1;
+    required string Value = 2;
+    required string Unit = 3;
+}
+
+message Entity: NFactType.TFact
+{
+    required string Name = 1;
+    required string Root = 2;
+}

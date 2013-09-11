@@ -1,0 +1,44 @@
+encoding "utf8";               // указываем кодировку, в которой написан этот файл
+
+import "base.proto";           // подключаем описания protobuf-типов (TAuxDicArticle и прочих)
+import "articles_base.proto";  // Файлы base.proto и articles_base.proto встроены в компилятор.
+                               // Их необходимо включать в начало любого gzt-словаря.
+import "facttypes.proto";
+import "kwtypes.proto";
+import "metric.gzt";
+
+
+TAuxDicArticle "реалии"
+{
+    key = { "tomita:entities.cxx" type=CUSTOM }
+}
+
+TAuxDicArticle "числа"
+{
+    key = { "tomita:numbers.cxx" type=CUSTOM }
+}
+
+TAuxDicArticle "число_авт"
+{
+    key = { "alg:number" type=CUSTOM }
+}
+
+TAuxDicArticle "дата_авт"
+{
+    key = { "alg:date" type=CUSTOM }
+}
+
+TAuxDicArticle "bad_entities"
+{
+    key = { "bad.txt" type=FILE }
+}
+
+TAuxDicArticle "pro"
+{
+    key = { "tomita:pro.cxx" type=CUSTOM }
+}
+
+TAuxDicArticle "main"
+{
+    key = { "tomita:main.cxx" type=CUSTOM }
+}
