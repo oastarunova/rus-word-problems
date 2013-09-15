@@ -9,7 +9,7 @@ TTextMinerConfig {
   }
 
   Output = {
-    File = "out.xml";
+//    File = "out.xml";
     Format = xml;
     Mode = overwrite;
   }
