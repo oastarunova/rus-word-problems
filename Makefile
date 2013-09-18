@@ -22,7 +22,10 @@ all:
 	awk '{print $$2}' $< | sort > $@
 
 freq.table.csv:
-	python maketable.py $(foreach src,$(sources),$(basename $(src)).csv) > $@
+	python maketable.py $(foreach src,$(sources),$(basename $(src))u.csv) > $@
+
+jaccard.csv: freq.table.csv
+	R CMD BATCH stats.R
 
 clean:
 	rm -vf $(foreach src,$(sources),$(foreach ext,$(extensions),$(basename $(src))$(ext)))
