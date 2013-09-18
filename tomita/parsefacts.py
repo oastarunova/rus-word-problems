@@ -5,7 +5,7 @@ import sys
 import xml.etree.cElementTree as e
 from collections import defaultdict, namedtuple
 
-if sys.argv[2] == '0':
+if sys.argv[1] == '0':
     units = False
 else:
     units = True
@@ -53,7 +53,7 @@ wp = None
 sys.stdout.write(u';'.join(['id'] + ['entity'] + ['root'] + metric_order).encode('utf-8'))
 sys.stdout.write('\n')
 
-for event, elem in e.iterparse(sys.argv[1]):
+for event, elem in e.iterparse(sys.stdin):
     if elem.tag == 'WPid':
         if wp:
             sys.stdout.write(unicode(wp).encode('utf-8'))
