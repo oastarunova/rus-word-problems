@@ -29,14 +29,14 @@ commons <- function(x, y) {
 dprow <- function(x,e){ sum(abs(x-e))/2}
 
 dp <- function(x) {
-    #z <- data.frame(x[,2:ncol(x)])
-    #rownames(z) <- x[,1]
-    csums <- colSums(x)
-    rsums <- rowSums(x)
+    z <- data.frame(x[,2:ncol(x)])
+    rownames(z) <- x[,1]
+    csums <- colSums(z)
+    rsums <- rowSums(z)
     eprops <- csums/sum(csums)
-    xprops <- x/rsums
+    xprops <- z/rsums
     out <- as.data.frame(apply(xprops, 1, dprow, eprops))
-    out <- cbind(out, rsums, x)
-    colnames(out) <- c("DP", "freq", colnames(x))
+    out <- cbind(out, rsums, z)
+    colnames(out) <- c("DP", "freq", colnames(z))
     return(out)
 }

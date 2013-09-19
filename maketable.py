@@ -11,7 +11,8 @@ entities = defaultdict(lambda: defaultdict(int))
 dimensions = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
 
 units = []
-files = sys.argv[1:]
+outdir = sys.argv[1]
+files = sys.argv[2:]
 sys.stderr.write(' '.join(files))
 
 for fn in files:
@@ -39,14 +40,14 @@ def make_header(flist):
 def make_estring(entity, edict, flist):
     return u';'.join([entity] + [str(edict[fn]) for fn in files]) + '\n'
 
-sys.stdout.write(make_header(files).encode('utf-8'))
-
-for entity, edict in entities.items():
-    estring = make_estring(entity, edict, files)
-    sys.stdout.write(estring.encode('utf-8'))
+with open(os.path.join(outdir, "freq.all.csv"),'wb') as o:
+    o.write(make_header(files).encode('utf-8'))
+    for entity, edict in entities.items():
+        estring = make_estring(entity, edict, files)
+        o.write(estring.encode('utf-8'))
 
 for unit in units:
-    with open("freq." + unit.encode('utf-8') + ".csv", 'wb') as ufile:
+    with open(os.path.join(outdir, "freq." + unit.encode('utf-8') + ".csv"), 'wb') as ufile:
         ufile.write(make_header(files).encode('utf-8'))
         for entity, edict in dimensions[unit].items():
             estring = make_estring(entity, edict, files) 

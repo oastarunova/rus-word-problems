@@ -48,7 +48,7 @@ class WordProblem(object):
         return u'\n'.join([u';'.join([self.wpid, e[0], e[1], self.metrics]) for e in self._entities])
 
 
-wp = None
+wp = WordProblem('None', units=units)
 
 sys.stdout.write(u';'.join(['id'] + ['entity'] + ['root'] + metric_order).encode('utf-8'))
 sys.stdout.write('\n')
