@@ -19,18 +19,32 @@ for fn in files:
     with open(fn) as tab:
         csv_reader = csv.reader(tab, delimiter=";")
         i = 0
+        wp = None
+        wproots = set()
         for row in csv_reader:
             if i == 0:
                 units = [c.decode('utf-8') for c in row[3:]]
             else:
                 try:
+                    wpid = row[0].decode('utf-8')
                     root = row[2].decode('utf-8')
-                    for unit, val in zip(units, row[3:]):
-                        if val == "1":
-                            dimensions[unit][root][fn]+=1
+                    if not wpid == wp:
+                        wp = wpid
+                        wproots = set()
+
+                    if root not in wproots:
+                        wproots.add(root)
+                        entities[root][fn]+=1
+                        dimsum = 0
+                        for unit, val in zip(units, row[3:]):
+                            if val == "1":
+                                dimensions[unit][root][fn]+=1
+                                dimsum+=1
+                        if dimsum == 0:
+                            dimensions['undef'][root][fn]+=1
+
                 except (IndexError):
                     pass
-                entities[root][fn]+=1
             i+=1
 
 
@@ -46,7 +60,7 @@ with open(os.path.join(outdir, "freq.all.csv"),'wb') as o:
         estring = make_estring(entity, edict, files)
         o.write(estring.encode('utf-8'))
 
-for unit in units:
+for unit in units + ['undef']:
     with open(os.path.join(outdir, "freq." + unit.encode('utf-8') + ".csv"), 'wb') as ufile:
         ufile.write(make_header(files).encode('utf-8'))
         for entity, edict in dimensions[unit].items():
