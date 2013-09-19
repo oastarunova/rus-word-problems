@@ -4,6 +4,13 @@ clujaccard <- function(x, y) {
     return(sum(lx & ly)/(sum(lx)+sum(ly)))
 }
 
+comm <- function(names, x, y, threshold=0) {
+    common <- paste(names[x>threshold & y>threshold], collapse=" ")
+    left <- paste(names[x>threshold & y<=threshold], collapse=" ")
+    right <- paste(names[x<=threshold & y>threshold], collapse=" ")
+    return(c(sum(x>threshold & y>threshold), sum(x>threshold & y<=threshold), sum(x<=threshold & y>threshold), common, left, right))
+}
+
 seqpairs <- function (x, FUN=clujaccard) {
     out <- data.frame(from=NA, to=NA, value=NA)
     for (i in 3:ncol(x)) {
@@ -12,9 +19,12 @@ seqpairs <- function (x, FUN=clujaccard) {
     return(out)
 }
 
-allpairs <- function (x, FUN=clujaccard) {
-    out <- data.frame(from=NA, to=NA, value=NA)
-    afun <- function(y) { c(colnames(y), FUN(y[,1], y[,2])) }
+allpairs <- function (x, FUN=clujaccard, entities=TRUE) {
+    out <- data.frame(from=NA, to=NA, value=NA, ncommon=NA, nleft=NA, nright=NA, common=NA, left=NA, right=NA)
+    afun <- function(y) { 
+        ents <- comm(x[,1], y[,1], y[,2])
+        return(c(colnames(y), FUN(y[,1], y[,2]), ents))
+    }
     z <- combn(x[,2:ncol(x)],2,simplify=FALSE,FUN=afun)
     for (i in 1:length(z)) {
         out[i,] <- c(colnames(z), z[[i]])
@@ -25,6 +35,7 @@ allpairs <- function (x, FUN=clujaccard) {
 commons <- function(x, y) {
     return(paste(intersect(unique(x), unique(y)), collapse=" "))
 }
+
 
 dprow <- function(x,e){ sum(abs(x-e))/2}
 

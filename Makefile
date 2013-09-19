@@ -27,6 +27,9 @@ stats/freq.all.csv:
 stat: stats/freq.all.csv
 	R CMD BATCH stats.R
 
+issues.pdf: issues.csv
+	R CMD BATCH issues.R
+
 clean:
 	rm -vf $(foreach src,$(sources),$(foreach ext,$(extensions),$(basename $(src))$(ext)))
 	rm -vf stats/*.csv

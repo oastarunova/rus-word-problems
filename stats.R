@@ -1,9 +1,11 @@
 source("coef.R")
+setwd("stats")
 fs<-list.files(".",pattern="freq.*.csv")
 write(fs, stderr())
 
 for (f in fs) {
     freqs<-read.csv(f,sep=";",header=T)
+    freqs <-freqs[order(rowSums(freqs[2:ncol(freqs)]),decreasing=T),]
     jaccard<-allpairs(freqs)
     jaccard<-jaccard[order(jaccard$value, decreasing=T),]
     write.csv(jaccard, sub("freq", "jaccard", f))
