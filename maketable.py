@@ -23,7 +23,7 @@ for fn in files:
         wproots = set()
         for row in csv_reader:
             if i == 0:
-                units = [c.decode('utf-8') for c in row[3:]]
+                units = [c.decode('utf-8') for c in row[4:]]
             else:
                 try:
                     wpid = row[0].decode('utf-8')
@@ -36,7 +36,7 @@ for fn in files:
                         wproots.add(root)
                         entities[root][fn]+=1
                         dimsum = 0
-                        for unit, val in zip(units, row[3:]):
+                        for unit, val in zip(units, row[4:]):
                             if val == "1":
                                 dimensions[unit][root][fn]+=1
                                 dimsum+=1

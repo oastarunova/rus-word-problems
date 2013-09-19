@@ -42,3 +42,8 @@ TAuxDicArticle "main"
 {
     key = { "tomita:main.cxx" type=CUSTOM }
 }
+
+TAuxDicArticle "test"
+{
+    key = { "tomita:test.cxx" type=CUSTOM }
+}

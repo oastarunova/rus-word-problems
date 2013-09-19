@@ -23,8 +23,8 @@ class WordProblem(object):
         data = ' '.join([val, unit]).lower()
         self._metrics[typ.lower()].append(data)
 
-    def entity(self, name, root):
-        self._entities.add((name.lower(), root.lower()))
+    def entity(self, name, root, etype=""):
+        self._entities.add((name.lower(), root.lower(), etype.lower()))
 
     @property
     def entities(self):
@@ -45,12 +45,12 @@ class WordProblem(object):
 
 
     def __unicode__(self):
-        return u'\n'.join([u';'.join([self.wpid, e[0], e[1], self.metrics]) for e in self._entities])
+        return u'\n'.join([u';'.join([self.wpid, e[0], e[1], e[2], self.metrics]) for e in self._entities])
 
 
 wp = WordProblem('None', units=units)
 
-sys.stdout.write(u';'.join(['id'] + ['entity'] + ['root'] + metric_order).encode('utf-8'))
+sys.stdout.write(u';'.join(['id', 'entity', 'root', 'type'] + metric_order).encode('utf-8'))
 sys.stdout.write('\n')
 
 for event, elem in e.iterparse(sys.stdin):
@@ -70,5 +70,7 @@ for event, elem in e.iterparse(sys.stdin):
         ename = elem.get('val')
     if elem.tag == 'Root':
         eroot = elem.get('val')
-        wp.entity(ename, eroot)
+    if elem.tag == 'EType':
+        etype = elem.get('val')
+        wp.entity(ename, eroot, etype)
 
