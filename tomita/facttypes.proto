@@ -16,4 +16,5 @@ message Entity: NFactType.TFact
 {
     required string Name = 1;
     required string Root = 2;
+    required string EType = 3;
 }

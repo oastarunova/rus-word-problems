@@ -22,10 +22,18 @@ all:
 	awk '{print $$2}' $< | sort > $@
 
 stats/freq.all.csv:
-	python maketable.py stats/ $(foreach src,$(sources),$(basename $(src))u.csv)
+	python maketable.py -o stats/ $(foreach src,$(sources),$(basename $(src))u.csv)
 
-stat: stats/freq.all.csv
-	R CMD BATCH stats.R
+stats/geo/geo.all.csv:
+	python maketable.py -e geo -o stats/geo $(foreach src,$(sources),$(basename $(src))u.csv)
+
+stats/subject/subject.all.csv:
+	python maketable.py -e subject -o stats/subject $(foreach src,$(sources),$(basename $(src))u.csv)
+
+stat: stats/freq.all.csv stats/geo/geo.all.csv stats/subject/subject.all.csv
+	Rscript stats.R stats freq
+	Rscript stats.R stats/geo geo
+	Rscript stats.R stats/subject subject
 
 issues.pdf: issues.csv
 	R CMD BATCH issues.R
