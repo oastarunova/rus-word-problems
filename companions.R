@@ -1,0 +1,7 @@
+library(reshape)
+c<-read.csv("stats/pairs.all.csv",header=F,sep=";")
+colnames(c)<-c('ent','comp','book','freq')
+cm<-melt(c)
+cc<-cast(cm, ent + comp ~ book,fill=0)
+ccm<-cbind(paste(cc$ent, cc$comp, sep=' -- '), cc[,3:ncol(cc)])
+write.table(ccm, "stats/freq.net.csv", col.names=T, row.names=F,sep=";")
