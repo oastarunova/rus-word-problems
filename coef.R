@@ -51,3 +51,50 @@ dp <- function(x) {
     colnames(out) <- c("DP", "freq", colnames(z))
     return(out)
 }
+
+dx <- function(s) {
+    res<-vector(mode="numeric",length=length(s)-1)
+    for (i in seq(1,length(s)-1)) {
+        res[i]<-as.numeric(s[i+1])-as.numeric(s[i])
+    }
+    return(mean(res)) 
+}
+
+dxa <- function(s) {
+    res<-vector(mode="numeric",length=length(s)-1)
+    for (i in seq(1,length(s)-1)) {
+        res[i]<-abs(as.numeric(s[i+1])-as.numeric(s[i]))
+    }
+    return(mean(res)) 
+}
+
+dxan <- function(s) {
+    res<-vector(mode="numeric",length=length(s)-1)
+    delta<-max(s)-min(s)
+    for (i in seq(1,length(s)-1)) {
+        res[i]<-abs(as.numeric(s[i+1])-as.numeric(s[i]))/delta
+    }
+    return(mean(res)) 
+}
+
+dxn <- function(s) {
+    res<-vector(mode="numeric",length=length(s)-1)
+    for (i in seq(1,length(s)-1)) {
+        s <- as.numeric(s)
+        res[i]<-(s[i+1]-s[i])/sum(s)
+    }
+    return(mean(res)) 
+}
+
+dxf <- function(s) {
+    res<-vector(mode="numeric",length=length(s)-1)
+    s<-as.numeric(s)
+    max = length(s)
+    for (i in seq(1,max-1)) {
+        for (j in seq(i+1,max)) {
+            res[i]<-(s[i]-s[j])/sum(s)
+        }
+    }
+    print(res)
+    return(mean(res)) 
+}
